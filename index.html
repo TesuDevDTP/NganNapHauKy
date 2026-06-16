@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ngăn Nắp Hậu Kỳ - Post-Production Workflow Organizer</title>
+    <!-- Google Fonts: Be Vietnam Pro -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- DESIGN TOKENS & UI CONSTANTS --- */
+        :root {
+            --color-dark-bg: #060B14;
+            --color-frame-bg: #11192E;
+            --color-entry-bg: #0A0F1D;
+            --color-blue-primary: #00A3FF;
+            --color-blue-primary-hover: #33B5FF;
+            --color-blue-secondary: #4A5D78;
+            --color-border-tech: #1B2A4A;
+            --color-border-tech-inner: #2C3E6B;
+            --color-text-muted: #8A9FB4;
+            --color-text-light: #FFFFFF;
+            --font-family: 'Be Vietnam Pro', sans-serif;
+        }
+
+        /* --- GLOBAL STYLES --- */
+        html {
+            scroll-behavior: smooth; /* Cuộn trang mượt mà giữa các mục */
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background-color: var(--color-dark-bg);
+            color: var(--color-text-light);
+            font-family: var(--font-family);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        a {
+            color: var(--color-blue-primary);
+            text-decoration: none;
+            transition: color 0.3s ease-in-out; /* Tối ưu hóa chuyển động mượt mà */
+        }
+        a:hover {
+            color: var(--color-blue-primary-hover);
+        }
+
+        /* --- CONTAINER --- */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* --- HEADER / NAVBAR --- */
+        header {
+            border-bottom: 1px solid var(--color-border-tech);
+            background-color: rgba(6, 11, 20, 0.8);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+        .logo {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--color-blue-primary);
+            letter-spacing: 1px;
+        }
+        .nav-links a {
+            color: var(--color-text-muted);
+            font-weight: 600;
+            margin-left: 25px;
+            font-size: 14px;
+            transition: color 0.3s ease-in-out;
+        }
+        .nav-links a:hover {
+            color: var(--color-blue-primary);
+        }
+
+        /* --- HERO SECTION --- */
+        .hero-section {
+            padding: 40px 0 60px 0;
+            text-align: center;
+        }
+        .banner-wrapper {
+            width: 100%;
+            border-radius: 12px;
+            border: 1px solid var(--color-border-tech);
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            margin-bottom: 40px;
+        }
+        .banner-wrapper img {
+            width: 100%;
+            display: block;
+        }
+        .hero-title {
+            font-size: 42px;
+            font-weight: 800;
+            color: var(--color-blue-primary);
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+        .hero-subtitle {
+            font-size: 18px;
+            color: var(--color-text-muted);
+            max-width: 800px;
+            margin: 0 auto 10px auto;
+            font-weight: 600;
+        }
+        .hero-author {
+            font-size: 12px;
+            color: var(--color-blue-secondary);
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 35px;
+        }
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 30px;
+            font-size: 15px;
+            font-weight: 700;
+            border-radius: 6px;
+            transition: all 0.3s ease-in-out; /* Thay đổi sang chuyển động gia tốc mượt mà */
+            cursor: pointer;
+        }
+        .btn-primary {
+            background-color: var(--color-blue-primary);
+            color: #111111;
+        }
+        .btn-primary:hover {
+            background-color: var(--color-blue-primary-hover);
+            color: #111111 !important; /* Sửa lỗi: Giữ nguyên chữ màu đen tương phản cao khi hover */
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 163, 255, 0.3);
+        }
+        .btn-secondary {
+            background-color: var(--color-frame-bg);
+            color: var(--color-text-light);
+            border: 1px solid var(--color-border-tech);
+        }
+        .btn-secondary:hover {
+            border-color: var(--color-blue-primary);
+            color: var(--color-blue-primary) !important;
+            background-color: var(--color-entry-bg);
+            transform: translateY(-2px);
+        }
+
+        /* --- SECTION BASE --- */
+        section {
+            padding: 60px 0;
+            border-bottom: 1px solid var(--color-border-tech);
+        }
+        .section-title {
+            font-size: 26px;
+            font-weight: 800;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .section-title span {
+            color: var(--color-blue-primary);
+        }
+
+        /* --- VISION SECTION --- */
+        .vision-card {
+            background-color: var(--color-frame-bg);
+            border: 1px solid var(--color-border-tech);
+            border-radius: 8px;
+            padding: 30px;
+        }
+        .vision-text {
+            color: var(--color-text-muted);
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+        .vision-text strong {
+            color: var(--color-text-light);
+        }
+
+        /* --- FEATURES SECTION --- */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+        .feature-card {
+            background-color: var(--color-frame-bg);
+            border: 1px solid var(--color-border-tech);
+            border-radius: 8px;
+            padding: 25px;
+            transition: all 0.3s ease-in-out; /* Gia tốc mượt mà khi hover card */
+        }
+        .feature-card:hover {
+            border-color: var(--color-blue-primary);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+        .feature-icon {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+        .feature-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--color-blue-primary);
+            margin-bottom: 12px;
+        }
+        .feature-desc {
+            color: var(--color-text-muted);
+            font-size: 14px;
+        }
+
+        /* --- STRUCTURE SECTION --- */
+        .structure-wrapper {
+            background-color: var(--color-entry-bg);
+            border: 1px solid var(--color-border-tech);
+            border-radius: 8px;
+            padding: 25px;
+            overflow-x: auto;
+        }
+        .structure-wrapper pre {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 14px;
+            color: #52ecff;
+        }
+
+        /* --- INFO / LINKS SECTION --- */
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        @media (max-width: 768px) {
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+            .hero-title {
+                font-size: 32px;
+            }
+        }
+        .info-box {
+            background-color: var(--color-frame-bg);
+            border: 1px solid var(--color-border-tech);
+            border-radius: 8px;
+            padding: 25px;
+        }
+        .info-list {
+            list-style: none;
+        }
+        .info-list li {
+            margin-bottom: 12px;
+            color: var(--color-text-muted);
+            font-size: 14px;
+        }
+        .info-list li strong {
+            color: var(--color-text-light);
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            padding: 40px 0;
+            text-align: center;
+            background-color: #03060d;
+            border-top: 1px solid var(--color-border-tech);
+        }
+        .footer-text {
+            color: var(--color-blue-secondary);
+            font-size: 13px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <header>
+        <div class="container nav-container">
+            <div class="logo">NGĂN NẮP HẬU KỲ</div>
+            <nav class="nav-links">
+                <a href="#tam-nhin">Tầm Nhìn</a>
+                <a href="#tinh-nang">Tính Năng</a>
+                <a href="#co-cau">Cấu Trúc</a>
+                <a href="#lien-he">Liên Hệ</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <main class="container">
+        <section class="hero-section">
+            <div class="banner-wrapper">
+                <img src="banner.png" alt="Ngăn Nắp Hậu Kỳ Banner">
+            </div>
+            <h1 class="hero-title">NGĂN NẮP HẬU KỲ</h1>
+            <p class="hero-subtitle">Giải pháp tự động hóa cấu trúc dữ liệu, giúp tối ưu hóa hiệu suất và chuẩn hóa quy trình làm việc dành riêng cho Nhà làm phim chuyên nghiệp.</p>
+            <p class="hero-author">✦ Thiết kế và phát triển bởi TESU ✦</p>
+            
+            <div class="cta-buttons">
+                <!-- Cập nhật liên kết tải trực tiếp file exe cài đặt chính thức -->
+                <a href="https://github.com/TesuDevDTP/NganNapHauKy/releases/download/v1.0.0/NganNapHauKy_Setup.exe" class="btn btn-primary">Tải Bộ Cài Đặt (.EXE)</a>
+                <a href="https://github.com/TesuDevDTP/NganNapHauKy" class="btn btn-secondary" target="_blank">Xem Trên GitHub</a>
+            </div>
+        </section>
+
+        <!-- TẦM NHÌN DỰ ÁN -->
+        <section id="tam-nhin">
+            <h2 class="section-title"><span>💡</span> Tầm Nhìn Dự Án: "10 giây đổi lại sự cứu rỗi cho não bộ"</h2>
+            <div class="vision-card">
+                <p class="vision-text">Một dự án hậu kỳ hỗn loạn với hàng trăm file Footage, Audio, Graphic nằm rải rác chính là "cơn ác mộng" chí mạng làm giảm 50% tốc độ dựng hình và dễ gây ra lỗi <strong>Media Offline</strong> khi bàn giao. Quy trình tạo thư mục thủ công lặp đi lặp lại mỗi ngày vừa tốn thời gian, vừa thiếu tính nhất quán giữa các dự án.</p>
+                <p class="vision-text"><strong>Ngăn Nắp Hậu Kỳ</strong> ra đời để định hình lại cuộc chơi. Chỉ với <strong>10 giây</strong> trước khi bấm nút <code>New Project</code> trên Adobe Premiere Pro hay DaVinci Resolve, ứng dụng sẽ tự động tạo một cấu trúc hệ thống thư mục tiêu chuẩn, giúp bạn quản lý tài nguyên logic tuyệt đối, tối ưu hóa tốc độ tìm kiếm và giải phóng không gian sáng tạo.</p>
+            </div>
+        </section>
+
+        <!-- TÍNH NĂNG NỔI BẬT -->
+        <section id="tinh-nang">
+            <h2 class="section-title"><span>✨</span> Các Tính Năng Đột Phá Khai Thác Sức Mạnh Quy Trình</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🧠</div>
+                    <div class="feature-name">Thuật Toán Tách Từ Thông Minh</div>
+                    <div class="feature-desc">Người dùng có thể gõ tiếng Việt có dấu thoải mái (VD: <code>Sự Kiện Âm Nhạc</code>). Hệ thống tự động loại bỏ dấu, chuẩn hóa chữ in hoa và bóc tách cụm từ: <code>260616_SU_KIEN_AM_NHAC</code>.</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎥</div>
+                    <div class="feature-name">Khai Báo Camera Linh Hoạt</div>
+                    <div class="feature-desc">Hỗ trợ tích chọn nhanh các góc máy tiêu chuẩn: <code>CAN</code>, <code>TOAN</code>, <code>GIMBAL</code>, <code>FLYCAM</code>, <code>FPV</code> hoặc gõ thêm các dòng máy tùy ý phụ trợ cách nhau bằng dấu phẩy theo thứ tự ưu tiên khoa học.</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔄</div>
+                    <div class="feature-name">Đồng Bộ Cấu Trúc Proxy Tự Động</div>
+                    <div class="feature-desc">Tự động khởi tạo nhánh thư mục <code>PROXY</code> riêng biệt, chính xác theo số lượng và tên các camera đã khai báo giúp Editor chép file proxy chuẩn xác, không sợ nhầm lẫn mã máy.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SƠ ĐỒ THƯ MỤC -->
+        <section id="co-cau">
+            <h2 class="section-title"><span>📂</span> Sơ Đồ Cấu Trúc Thư Mục Được Khởi Tạo</h2>
+            <div class="structure-wrapper">
+<pre>
+📁 [YYMMDD_TEN_SU_KIEN_CHUAN_HOA]
+├── 📁 1. PROJECT (Chứa file gốc Premiere, After Effects, DaVinci, Avid...)
+│   └── 📁 [FINAL] (Nơi xuất file nghiệm thu các phiên bản)
+├── 📁 2. CAM 1 [TÊN_MÁY_1] (Footage gốc máy 1)
+├── 📁 2. CAM 2 [TÊN_MÁY_2] (Footage gốc máy 2)
+├── 📁 2. CAM ...
+├── 📁 2. CAM [X] PROXY (Hệ thống lưu trữ Proxy đồng bộ ngầm)
+│   ├── 📁 2. CAM 1 [TÊN_MÁY_1]
+│   └── 📁 2. CAM 2 [TÊN_MÁY_2]
+├── 📁 3. ASSET (File dạng video)
+├── 📁 4. MUSIC (Nhạc nền được sử dụng trong dự án)
+├── 📁 5. GRAPHIC (File PSD, AI, Motion Graphic template)
+├── 📁 6. SOUNDFX (Hiệu ứng âm thanh, tiếng động môi trường)
+├── 📁 7. TRANSITIONS (Các gói chuyển cảnh, overlay bổ trợ)
+└── 📄 README.md (File báo cáo tự động ghi nhận thông số ngày quay)
+</pre>
+            </div>
+        </section>
+
+        <!-- THÔNG TIN PHỤ: ĐỒNG GÓP & LIÊN HỆ -->
+        <section id="lien-he" style="border-bottom: none;">
+            <div class="info-grid">
+                <div class="info-box">
+                    <h3 class="feature-name" style="margin-bottom: 15px;">🤝 Đóng Góp (Contributing)</h3>
+                    <p class="feature-desc" style="line-height: 1.7;">Mọi ý kiến đóng góp nhằm tối ưu hóa bộ từ điển bóc tách từ ngữ hoặc đề xuất cấu trúc thư mục mới cho các ngách hậu kỳ luôn được hoan nghênh. Bạn có thể mở một thẻ mới tại mục Issues hoặc gửi Pull Request để cùng phát triển công cụ.</p>
+                </div>
+                <div class="info-box">
+                    <h3 class="feature-name" style="margin-bottom: 15px;">📞 Liên Hệ (Contact)</h3>
+                    <ul class="info-list">
+                        <li><strong>Nhà phát triển:</strong> TESU</li>
+                        <li><strong>GitHub:</strong> <a href="https://github.com/TesuDevDTP" target="_blank">@TesuDevDTP</a></li>
+                        <li><strong>Email:</strong> <a href="mailto:dothanhphat.tesu@gmail.com">dothanhphat.tesu@gmail.com</a></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER & LICENSE -->
+    <footer>
+        <div class="container">
+            <p class="footer-text" style="color: var(--color-text-muted); margin-bottom: 10px;">Dự án này được cấp phép theo các điều khoản của MIT License.</p>
+            <p class="footer-text">✦ © 2026 NGĂN NẮP HẬU KỲ - THIẾT KẾ BỞI TESU ✦</p>
+        </div>
+    </footer>
+
+</body>
+</html>
